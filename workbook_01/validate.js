@@ -19,17 +19,17 @@ class Validate {
 	}
 
 	hasClass(node, className) {
-	    return !!node.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
+	    return !!node.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
 	}
 
 	addClass(node, className) {
-	    if (!this.hasClass(node, className)) node.className += " " + className;
+	    if (!this.hasClass(node, className)) node.className += " " + className
 	}
 
 	removeClass(node, className) {
 	    if (this.hasClass(node, className)) {
-	        var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
-	        node.className = node.className.replace(reg, ' ');
+	        var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+	        node.className = node.className.replace(reg, ' ')
 	    }
 	}
 
@@ -41,10 +41,10 @@ class Validate {
                 count++;
             }
             else {
-                count += 2;
+                count += 2
             }
         }
-        return count;
+        return count
     }
 
 	checkInput () {
