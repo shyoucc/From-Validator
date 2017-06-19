@@ -1,0 +1,79 @@
+html, body {
+	padding: 0
+	margin: 0
+}
+
+.validate {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    flex-direction: column;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.input {
+    border: 1px solid #eee;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 4px;
+    width: 200px;
+	outline: none;
+	padding-left: 7px;
+}
+
+.item {
+	margin-bottom: 10px;
+}
+
+.labelbox {
+	width: 70px;
+	display: inline-block;
+}
+
+.input.focus {
+	border: 1px solid #1787FB;
+}
+
+.input.error {
+	border: 1px solid #EB5558;
+}
+
+.input.adopt {
+	border: 1px solid green;
+}
+
+.btn {
+	background:#1788FB;
+    height: 30px;
+    line-height: 30px;
+	color: #fff;
+	width: 70px;
+    display: inline-block;
+	text-align: center;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.btn:hover {
+	opacity: .8
+}
+
+.submit {
+	padding: 10px 20px;
+}
+
+.tips {
+	font-size: 12px;
+	color: #a2a2a2;
+    padding-left: 80px;
+    padding-top: 5px;
+}
+
+.tips.adopt {
+	color: green;
+}
+
+.tips.error {
+	color: #EB5558;
+}

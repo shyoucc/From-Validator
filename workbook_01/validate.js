@@ -48,7 +48,6 @@ class Validate {
     }
 
 	checkInput () {
-
 		let input = this.input
 		let val = input.value.trim()
 
@@ -64,7 +63,6 @@ class Validate {
 			this.tips.innerHTML = null
 			this.removeClass(input, 'error')
 		}
-
 
 	}
 
