@@ -30,13 +30,13 @@
 
 		<div class="item">
 			<label class="labelbox" for="user">邮箱</label>
-			<input type="text" class="input" />
+			<input type="text" name="email" class="input" />
 			<div class="tips"></div>
 		</div>
 
 		<div class="item">
 			<label class="labelbox" for="user">电话</label>
-			<input type="text" class="input" />
+			<input type="text" name="tel" class="input" />
 			<div class="tips"></div>
 		</div>
 		<div class="item">
@@ -47,6 +47,22 @@
 	</div>
 </body>
 <script type="text/javascript">
+
+	let submitForm = document.querySelector('.validate');
+	let tel = submitForm.querySelector('input[name = tel]')
+
+	let btn = submitForm.querySelector('.check')
+
+	let verift = new Verify()
+
+	verift.add(tel, [{
+		rule: 'isMobile',
+		errorMsg: '手机号码不能为空'
+	}])
+
+	btn.onclick = function(){
+		let err = verift.check()
+	}
 
 
 </script>
