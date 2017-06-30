@@ -8,35 +8,35 @@
 
 </head>
 <body>
-	<div class="validate">
+	<form class="validate">
 
 		<div class="item">
 			<label class="labelbox" for="user">姓名</label>
-			<input type="text" class="input" />
-			<div class="tips"></div>
+			<input type="text" rule="require" class="input" />
+			<div class="tips">请输入姓名</div>
 		</div>
 
 		<div class="item">
 			<label class="labelbox" for="user">密码</label>
-			<input type="text" class="input" />
+			<input type="password" rule="pwd require" class="input" />
 			<div class="tips"></div>
 		</div>
 
 		<div class="item">
 			<label class="labelbox" for="user">密码确认</label>
-			<input type="text" class="input" />
+			<input type="password" rule="pwd require" class="input" />
 			<div class="tips"></div>
 		</div>
 
 		<div class="item">
 			<label class="labelbox" for="user">邮箱</label>
-			<input type="text" name="email" class="input" />
+			<input type="text" rule="email require" class="input" />
 			<div class="tips"></div>
 		</div>
 
 		<div class="item">
 			<label class="labelbox" for="user">电话</label>
-			<input type="text" name="tel" class="input" />
+			<input type="text" rule="mobile require" class="input" />
 			<div class="tips"></div>
 		</div>
 		<div class="item">
@@ -44,21 +44,19 @@
 			<a class='btn check'>提交</a>
 		</div>
 
-	</div>
+	</form>
 </body>
 <script type="text/javascript">
-
-	let submitForm = document.querySelector('.validate');
-	let tel = submitForm.querySelector('input[name = tel]')
-
+	let submitForm = document.querySelector('.validate')
 	let btn = submitForm.querySelector('.check')
 
-	let verift = new Verify()
+	function $(node){
+		return submitForm.querySelector(node)
+	}
 
-	verift.add(tel, [{
-		rule: 'isMobile',
-		errorMsg: '手机号码不能为空'
-	}])
+	let verift = new Verify({
+		dom: submitForm
+	})
 
 	btn.onclick = function(){
 		let err = verift.check()
