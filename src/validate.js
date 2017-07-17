@@ -20,11 +20,16 @@
 
 	function Verify(options){
         this.cache = []
-        this.opt = Object.assign({}, options)
+        this.allRules = allRules
 
-        this.bindInput(this.opt.dom)
+        let originalOptions = {
+            dom: document.getElementsByTagName('form')[0]
+        }
+        this.opt = Object.assign({}, originalOptions, options)
 
-	}
+        cleanWhitespace(this.opt.dom)
+        this._bindInput()
+    }
 
     function on(context, eventType, callback) {
         if(!document.addEventListener) {
@@ -37,13 +42,13 @@
     let _proto = Verify.prototype
 
     // 获取input
-    _proto.bindInput = function(selectors){
-        cleanWhitespace(selectors)
-        let input = selectors.querySelectorAll('input')
+    _proto._bindInput = function(selectors){
+        this.inputs = this.opt.dom.querySelectorAll('input')
+        let input = this.inputs
 
         for (var i = input.length - 1; i >= 0; i--) {
             on(input[i], 'blur', (e) => {
-               validate(e.target)
+               this._validate(e.target)
             })
 
              on(input[i], 'focus', (e) => {
@@ -54,18 +59,15 @@
         return input
     }
 
-    function toggleTips(input, isShow = true, msg){
-        if (!input) return
-        let tips = input.nextSibling
-        toggleElement(tips, isShow, msg)
-    }
-
     // 验证
-    function validate(input, opt){
+    _proto._validate = function(input){
+        let dom = this.opt.dom
         let flag = 0
         let inputRule = input.getAttribute('rule')
+        let name = input.getAttribute('name')
         let val = input.value
         let resMsg = []
+        let cache = this.cache
 
         if (inputRule && inputRule !== '') {
             inputRule = inputRule.split(' ')
@@ -75,7 +77,6 @@
                     msg && resMsg.push(msg)
                 }
             })
-            console.log(resMsg.length, 'resMsg')
         } else {
             return '没有规则'
         }
@@ -92,12 +93,14 @@
             removeClass(input, 'adopt')
             addClass(input, 'error')
             toggleTips(input, true ,msg)
+            cache.indexOf(name) === -1 && cache.push(name)
         }
 
         if (flag === 0) {
             removeClass(input, 'error')
             addClass(input, 'adopt')
             toggleTips(input, false)
+            cache.splice(cache.indexOf(name), 1)
         }
 
         return msg
@@ -117,6 +120,12 @@
                 cleanWhitespace(child);
             }
         }
+    }
+
+    function toggleTips(input, isShow = true, msg){
+        if (!input) return
+        let tips = input.nextSibling
+        toggleElement(tips, isShow, msg)
     }
 
     // html节点样式文本控制
@@ -143,32 +152,32 @@
 
     // 增加规则
     _proto.add = function(dom, rules){
-        let that = this
 
-        for (var i = 0; i < rules.length; i++) {
-            (function(one){
-                that.cache.push(function(){
-                    let ruleArr = one.rule.split(':')
-                    let errorMsg = one.errorMsg
-                    let ruleName = ruleArr.shift()
-                    ruleArr.unshift(dom.value)
-                    ruleArr.push(errorMsg)
-                    return allRules[ruleName].apply(dom, ruleArr)
-                })
-            })(rules[i])
-
-        }
     }
 
     _proto.check = function(){
-        console.log(this.cache, 'this.cache')
-        for (var i = 0; i < this.cache.length; i++) {
-            var error = this.cache[i]()
-            if (error) {
-                console.log(error, 'error')
-                return error
+        let rules = this.allRules
+        let cache = this.cache
+        let inputs = this.inputs
+        let arrMsg = []
+        let that = this
+
+        // blur 和 click冲突
+        setTimeout(function(){
+            for (var i = 0; i < inputs.length; i++) {
+                that._validate(inputs[i])
+            }
+        }, 0)
+
+        for (var i = 0; i < cache.length; i++) {
+            if (rules[cache[i]]) {
+                var error = rules[cache[i]]()
+                if (error) {
+                    arrMsg.push(error)
+                }
             }
         }
+        return arrMsg
     }
 
     g.Verify = Verify

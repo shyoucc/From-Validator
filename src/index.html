@@ -12,31 +12,31 @@
 
 		<div class="item">
 			<label class="labelbox" for="user">姓名</label>
-			<input type="text" rule="require" class="input" />
+			<input type="text"  name="name" rule="require" class="input" />
 			<div class="tips">请输入姓名</div>
 		</div>
 
 		<div class="item">
 			<label class="labelbox" for="user">密码</label>
-			<input type="password" rule="pwd require" class="input" />
+			<input type="password"  name="pwd" rule="pwd require" class="input" />
 			<div class="tips"></div>
 		</div>
 
 		<div class="item">
 			<label class="labelbox" for="user">密码确认</label>
-			<input type="password" rule="pwd require" class="input" />
+			<input type="password" name="pwdsure" rule="pwd require" class="input" />
 			<div class="tips"></div>
 		</div>
 
 		<div class="item">
 			<label class="labelbox" for="user">邮箱</label>
-			<input type="text" rule="email require" class="input" />
+			<input type="text" name="email" rule="email require" class="input" />
 			<div class="tips"></div>
 		</div>
 
 		<div class="item">
 			<label class="labelbox" for="user">电话</label>
-			<input type="text" rule="mobile require" class="input" />
+			<input type="text" name="mobile" rule="mobile require" class="input" />
 			<div class="tips"></div>
 		</div>
 		<div class="item">
@@ -47,19 +47,13 @@
 	</form>
 </body>
 <script type="text/javascript">
-	let submitForm = document.querySelector('.validate')
-	let btn = submitForm.querySelector('.check')
 
-	function $(node){
-		return submitForm.querySelector(node)
-	}
-
-	let verift = new Verify({
-		dom: submitForm
-	})
+	let verift = new Verify()
+	let btn = document.querySelector('.check')
 
 	btn.onclick = function(){
 		let err = verift.check()
+		console.log(err, 'err')
 	}
 
 
